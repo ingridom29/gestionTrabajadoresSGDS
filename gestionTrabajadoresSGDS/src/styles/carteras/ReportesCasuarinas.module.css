@@ -1,0 +1,37 @@
+.wrap { font-family: 'Poppins', system-ui, sans-serif; display: flex; flex-direction: column; gap: 14px; }
+
+/* Toolbar */
+.toolbar { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; padding: 12px 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.filtros { display: flex; gap: 8px; }
+.filterBtn { padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 500; cursor: pointer; border: 0.5px solid #e2e8f0; background: #fff; color: #64748b; font-family: 'Poppins', sans-serif; transition: all 0.15s; }
+.filterActive { background: #1A2F5E !important; color: #fff !important; border-color: #1A2F5E !important; }
+.search { padding: 7px 12px; border-radius: 8px; border: 0.5px solid #e2e8f0; font-size: 12.5px; color: #1A2F5E; background: #f8fafc; font-family: 'Poppins', sans-serif; outline: none; width: 200px; margin-left: auto; }
+.search:focus { border-color: #1A2F5E; }
+.btnExcel { display: flex; align-items: center; gap: 7px; padding: 8px 18px; border-radius: 8px; background: #15803d; color: #fff; border: none; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap; transition: background 0.15s; }
+.btnExcel:hover { background: #166534; }
+.btnExcel:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Resumen */
+.resumen { display: flex; gap: 20px; background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; padding: 12px 18px; }
+.resumenItem { display: flex; flex-direction: column; gap: 2px; }
+.resumenLabel { font-size: 10.5px; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.7px; }
+.resumenVal { font-size: 18px; font-weight: 700; color: #1A2F5E; }
+
+/* Tabla */
+.tableWrap { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1100px; }
+.tbl th { padding: 9px 12px; text-align: left; font-size: 10.5px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.7px; border-bottom: 0.5px solid #e2e8f0; background: #f8fafc; white-space: nowrap; }
+.tbl td { padding: 9px 12px; border-bottom: 0.5px solid #f1f5f9; color: #334155; vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: #f8fafc; }
+.rowCancelado td { background: #f0fdf4; }
+.rowCancelado:hover td { background: #dcfce7 !important; }
+
+.apellido { font-weight: 600; color: #1A2F5E; }
+.monto { font-weight: 600; color: #1A2F5E; }
+.loadingMsg { padding: 40px; text-align: center; color: #94a3b8; font-size: 13px; }
+.emptyMsg { padding: 30px; text-align: center; color: #94a3b8; font-size: 13px; }
+
+/* Badges estado */
+.badgeCancelado { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #dcfce7; color: #15803d; white-space: nowrap; }
+.badgeNoCancelado { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #fee2e2; color: #991b1b; white-space: nowrap; }

@@ -20,12 +20,12 @@ export default function Login() {
     <div className={styles.container}>
       <div className={styles.card}>
         <h1 className={styles.logo}>SGDS</h1>
-        <p className={styles.subtitle}>Sistema de Gestión Interna</p>
+        <p className={styles.subtitle}>Sistema de Gestión Inteddvxrna</p>
 
         <input
           className={styles.input}
           type="email"
-          placeholder="Correo electrónico"
+          placeholder="Corressso electrónico"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />

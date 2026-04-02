@@ -1,0 +1,96 @@
+.wrap { font-family: 'Poppins', system-ui, sans-serif; }
+
+/* Header */
+.header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 16px;
+  margin-bottom: 24px;
+}
+.headerTitle {
+  font-size: 16px; font-weight: 700; color: #1A2F5E; margin-bottom: 4px;
+}
+.headerSub { font-size: 12.5px; color: #94a3b8; }
+.btnNueva {
+  background: #FEC70B; color: #1A2F5E; border: none;
+  padding: 9px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'Poppins', sans-serif; white-space: nowrap;
+  transition: background 0.15s;
+}
+.btnNueva:hover { background: #f5bc00; }
+
+/* Grid de carteras */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* Card cartera */
+.card {
+  background: #fff; border-radius: 12px;
+  border: 0.5px solid #e2e8f0; padding: 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.card:hover {
+  border-color: #2E487C;
+  box-shadow: 0 4px 16px rgba(26,47,94,0.08);
+}
+
+.cardTop {
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.cardIconWrap {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(26,47,94,0.08);
+  display: flex; align-items: center; justify-content: center;
+}
+.estadoBadge {
+  display: inline-flex; padding: 3px 10px;
+  border-radius: 99px; font-size: 11px; font-weight: 600;
+  background: #dcfce7; color: #15803d;
+}
+
+.cardTitle { font-size: 16px; font-weight: 700; color: #1A2F5E; }
+.cardServicio { font-size: 11.5px; color: #FEC70B; font-weight: 600; background: rgba(254,199,11,0.12); display: inline-flex; padding: 2px 8px; border-radius: 5px; width: fit-content; }
+.cardDesc { font-size: 12.5px; color: #64748b; line-height: 1.6; flex: 1; }
+
+/* Stats */
+.cardStats {
+  display: flex; align-items: center; gap: 16px;
+  padding: 12px 0; border-top: 0.5px solid #f1f5f9;
+  border-bottom: 0.5px solid #f1f5f9;
+}
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.statVal { font-size: 16px; font-weight: 700; color: #1A2F5E; }
+.statLabel { font-size: 10.5px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.6px; }
+.statDivider { width: 1px; height: 30px; background: #f1f5f9; }
+
+/* Botón entrar */
+.btnEntrar {
+  width: 100%; padding: 10px; border-radius: 8px;
+  background: #1A2F5E; color: #fff; border: none;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.15s;
+}
+.btnEntrar:hover { background: #2E487C; }
+
+/* Card placeholder */
+.cardPlaceholder {
+  background: #f8fafc; border-radius: 12px;
+  border: 1.5px dashed #e2e8f0; padding: 32px 20px;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; min-height: 240px;
+}
+.placeholderIcon { margin-bottom: 4px; }
+.placeholderText { font-size: 14px; font-weight: 600; color: #94a3b8; }
+.placeholderSub { font-size: 12px; color: #cbd5e1; text-align: center; line-height: 1.5; }
+
+@media (max-width: 768px) {
+  .header { flex-direction: column; }
+  .grid { grid-template-columns: 1fr; }
+}

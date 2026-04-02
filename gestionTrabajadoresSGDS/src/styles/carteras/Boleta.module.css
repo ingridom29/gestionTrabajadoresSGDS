@@ -1,0 +1,217 @@
+/* ── Boleta.module.css ── */
+
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: flex-start; justify-content: center;
+  z-index: 2000; overflow-y: auto; padding: 20px;
+}
+.container {
+  width: 100%; max-width: 700px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.acciones { display: flex; gap: 10px; justify-content: flex-end; }
+.btnImprimir {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 8px;
+  background: #5e7ede; color: #fff; border: none;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'Poppins', sans-serif; transition: background 0.15s;
+}
+.btnImprimir:hover { background: #4a6bcf; }
+.btnCerrar {
+  padding: 9px 16px; border-radius: 8px;
+  background: #fff; color: #64748b;
+  border: 0.5px solid #e2e8f0;
+  font-size: 13px; cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+.btnCerrar:hover { border-color: #5e7ede; color: #5e7ede; }
+
+/* ── Boleta ── */
+.boleta {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  padding: 32px 36px;
+  font-family: 'Poppins', system-ui, sans-serif;
+  display: flex; flex-direction: column; gap: 18px;
+}
+
+/* Header */
+.header {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 20px;
+}
+.logoArea { display: flex; align-items: center; gap: 16px; }
+.logoImg { height: 90px; width: auto; object-fit: contain; }
+.empresaInfo { display: flex; flex-direction: column; gap: 3px; }
+.empresaNombre { font-size: 15px; font-weight: 700; color: #1e293b; }
+.empresaDato { font-size: 12px; color: #475569; }
+
+/* Número boleta — gris suave redondeado */
+.boletaNumArea {
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 12px 18px;
+  min-width: 160px;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.rucLabel { font-size: 10.5px; color: #94a3b8; font-weight: 500; }
+.boletaLabel {
+  background: #5e7ede; color: #fff;
+  font-size: 12px; font-weight: 700;
+  padding: 5px 16px; border-radius: 8px;
+  display: inline-block; align-self: center;
+}
+.boletaNum { font-size: 12px; font-weight: 700; color: #1A2F5E; letter-spacing: 0.3px; }
+
+.divider { height: 1px; background: #d1d5db; }
+
+/* Datos socio */
+.datos { display: flex; flex-direction: column; gap: 5px; }
+.datoRow { display: flex; gap: 12px; font-size: 13px; }
+.datoKey { width: 150px; flex-shrink: 0; color: #334155; font-weight: 600; }
+.datoVal { color: #1e293b; }
+
+/* Tabla servicios */
+.tablaSrv { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tablaSrv th {
+  padding: 9px 14px; text-align: center;
+  border: 1px solid #d1d5db;
+  font-weight: 600; color: #334155;
+  background: #f8fafc; font-size: 12.5px;
+}
+.tablaSrv td { padding: 10px 14px; border: 1px solid #d1d5db; color: #1e293b; }
+.tablaSrv td:last-child { text-align: right; font-weight: 500; }
+
+.totalRow {
+  display: flex; justify-content: flex-end; align-items: center;
+  gap: 60px; padding: 8px 14px;
+  border-bottom: 2px solid #1e293b;
+}
+.totalLabel { font-size: 13px; font-weight: 700; color: #1e293b; }
+.totalVal { font-size: 13px; font-weight: 700; color: #1e293b; }
+
+/* ── Detalle pago — Opción C: header azul + cuerpo blanco ── */
+.detallePago {
+  border: 1.5px solid #5e7ede;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.detalleHeader {
+  background: #5e7ede;
+  padding: 9px 16px;
+  font-size: 11px; font-weight: 700;
+  color: #fff; text-transform: uppercase; letter-spacing: 1px;
+}
+.detalleGrid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; padding: 14px 16px;
+}
+.detalleItem { display: flex; flex-direction: column; gap: 3px; }
+.detalleKey {
+  font-size: 10px; color: #94a3b8;
+  text-transform: uppercase; letter-spacing: 0.8px;
+}
+.detalleVal { font-size: 13px; font-weight: 700; color: #1A2F5E; }
+
+/* ── Métodos de pago ── */
+/* QR + tarjetas en una sola fila */
+.metodoRow {
+  display: flex; gap: 14px; align-items: stretch;
+}
+.qrPlaceholder {
+  border: 1px solid #d1d5db; border-radius: 10px;
+  padding: 14px 16px;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 8px; flex-shrink: 0;
+}
+.qrLabel { font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.5; }
+
+/* 3 tarjetas de cuentas */
+.cuentasGrid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1;
+}
+.cuentaCard {
+  border: 1px solid #e2e8f0; border-radius: 10px;
+  padding: 12px 10px; display: flex; flex-direction: column;
+  align-items: center; text-align: center; gap: 5px;
+}
+.cuentaCardLinea { font-size: 10px; color: #334155; }
+.cuentaCardNombre { font-size: 10.5px; font-weight: 600; }
+.medioPagoImg {
+  height: 38px;
+  width: 74px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.cuentaDatos {
+  display: flex; flex-direction: column; gap: 3px;
+  border-left: 2px solid #e2e8f0; padding-left: 12px;
+}
+.cuentaLinea { font-size: 12px; color: #334155; }
+
+/* Print */
+@media print {
+  .overlay { position: static; background: none; padding: 0; }
+  .acciones { display: none !important; }
+  .container { max-width: 100%; }
+  .boleta { border: none; padding: 10px; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ── Pie de página ── */
+.footer {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-top: 4px;
+}
+.footerDivider {
+  height: 1px; background: #d1d5db; margin-bottom: 4px;
+}
+.footerText {
+  font-size: 10px; color: #94a3b8; text-align: center;
+  font-style: italic;
+}
+.footerSub {
+  font-size: 10px; color: #cbd5e1; text-align: center;
+}
+.firmArea {
+  display: flex; justify-content: flex-end;
+  margin-top: 24px; padding-top: 8px;
+}
+.firmaBox {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px; min-width: 180px;
+}
+.firmaLinea {
+  width: 100%; height: 1px; background: #334155;
+}
+.firmaNombre {
+  font-size: 11.5px; font-weight: 600; color: #334155;
+}
+.firmaCargo {
+  font-size: 10.5px; color: #94a3b8;
+}
+
+/* Nota */
+.notaBox {
+  border: 1px solid #d1d5db; border-radius: 10px;
+  padding: 14px 16px; flex: 1;
+  background: #fafbff;
+  display: flex; flex-direction: column; justify-content: center; gap: 6px;
+}
+.notaTitulo {
+  font-size: 10px; font-weight: 700;
+  color: #5e7ede; text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.notaTexto {
+  font-size: 10px; color: #64748b; line-height: 1.6;
+}
