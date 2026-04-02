@@ -11,8 +11,10 @@ export default function Login() {
   const handleLogin = async () => {
     setLoading(true)
     setError('')
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) setError('Credenciales incorrectas')
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    console.log('DATA:', data)
+    console.log('ERROR:', error)
+    if (error) setError(error.message)
     setLoading(false)
   }
 
