@@ -1,0 +1,17 @@
+.container { min-height: 100vh; background-color: #f4f6f9; }
+
+.header { background-color: #1A2F5E; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+
+.logo { color: #FEC70B; font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; margin: 0; }
+
+.logoutBtn { background: transparent; border: 1px solid #FEC70B; color: #FEC70B; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+
+.logoutBtn:hover { background-color: #FEC70B; color: #1A2F5E; }
+
+.main { padding: 2rem; }
+
+.card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); max-width: 400px; border-left: 4px solid #FEC70B; }
+
+.cardTitle { color: #1A2F5E; font-size: 1.2rem; margin: 0 0 0.5rem; }
+
+.cardDesc { color: #888; font-size: 0.9rem; margin: 0; }
