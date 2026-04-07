@@ -1,0 +1,167 @@
+/* ── GastosPersonales.module.css ── */
+
+/* Sub-tabs Cuenta Principal / Empresa */
+.subTabs {
+  display: flex; gap: 8px;
+  margin-bottom: 16px;
+}
+.subTab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 18px; border-radius: 9px;
+  border: 0.5px solid #e2e8f0; background: #fff;
+  font-size: 12.5px; font-weight: 500; color: #64748b;
+  cursor: pointer; font-family: 'Poppins', sans-serif;
+  transition: all 0.15s;
+}
+.subTab:hover { border-color: #1A2F5E; color: #1A2F5E; }
+.subTabActivo {
+  background: #1A2F5E !important; color: #fff !important;
+  border-color: #1A2F5E !important;
+}
+.subTabBadge {
+  font-size: 10px; font-weight: 600;
+  padding: 1px 7px; border-radius: 99px;
+  background: rgba(255,255,255,0.2);
+  color: inherit;
+}
+.subTabActivo .subTabBadge { background: rgba(255,255,255,0.25); color: #fff; }
+.subTab:not(.subTabActivo) .subTabBadge { background: #f1f5f9; color: #64748b; }
+
+/* KPIs — 4 columnas */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+.kpi { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; padding: 13px 15px; transition: border-color 0.15s; }
+.kpi:hover { border-color: #2E487C; }
+.kpiLabel { font-size: 10.5px; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 5px; }
+.kpiVal { font-size: 18px; font-weight: 700; color: #1A2F5E; }
+.kpiSub { font-size: 11px; margin-top: 2px; color: #94a3b8; }
+
+/* Toolbar */
+.toolbar {
+  background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0;
+  padding: 10px 14px; display: flex; align-items: center;
+  gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.filterBtn {
+  padding: 5px 12px; border-radius: 99px; font-size: 12px; font-weight: 500;
+  cursor: pointer; border: 0.5px solid #e2e8f0; background: #fff;
+  color: #64748b; font-family: 'Poppins', sans-serif; transition: all 0.15s;
+}
+.filterBtn:hover { border-color: #1A2F5E; color: #1A2F5E; }
+.filterActive { background: #1A2F5E !important; color: #fff !important; border-color: #1A2F5E !important; }
+.spacer { flex: 1; }
+.select {
+  padding: 5px 10px; border-radius: 8px; border: 0.5px solid #e2e8f0;
+  font-size: 12px; color: #1A2F5E; background: #f8fafc;
+  font-family: 'Poppins', sans-serif; outline: none; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.select:focus { border-color: #2E487C; }
+.inputFecha {
+  padding: 5px 9px; border-radius: 7px; border: 0.5px solid #e2e8f0;
+  font-size: 12px; font-family: 'Poppins', sans-serif; color: #1A2F5E;
+  background: #f8fafc; outline: none; cursor: pointer; transition: border-color 0.15s;
+}
+.inputFecha:focus { border-color: #2E487C; background: #fff; }
+.fechaSep { font-size: 12px; color: #94a3b8; flex-shrink: 0; }
+.btnLimpiarFecha {
+  width: 26px; height: 26px; border-radius: 6px;
+  border: 0.5px solid #e2e8f0; background: #fff; color: #94a3b8;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.btnLimpiarFecha:hover { border-color: #dc2626; color: #dc2626; background: #fff5f5; }
+.btnPrimario {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 14px; border-radius: 7px; border: none;
+  background: #1A2F5E; color: #fff; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.15s;
+}
+.btnPrimario:hover { background: #2E487C; }
+
+/* Tabla */
+.tableWrap { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; overflow: hidden; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.tbl th {
+  padding: 10px 14px; text-align: left;
+  font-size: 10.5px; font-weight: 600; color: #94a3b8;
+  text-transform: uppercase; letter-spacing: 0.7px;
+  border-bottom: 0.5px solid #e2e8f0; background: #f8fafc;
+}
+.tbl td { padding: 11px 14px; border-bottom: 0.5px solid #f1f5f9; color: #334155; vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: #f8fafc; }
+
+.filaObra td { background: #fffbeb !important; }
+.filaObra:hover td { background: #fef9c3 !important; }
+
+.categoriaCell { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.badgeObra {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: 99px; font-size: 10.5px; font-weight: 600;
+  background: #fef3c7; color: #92400e; border: 0.5px solid #fde68a; white-space: nowrap;
+}
+.quien { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 500; }
+.quienGerenta  { background: #eff6ff; color: #1d4ed8; }
+.quienAsistenta { background: #f5f3ff; color: #6d28d9; }
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 500; background: #f1f5f9; color: #475569; }
+.monto { font-weight: 600; color: #1A2F5E; white-space: nowrap; }
+.actions { display: flex; gap: 5px; }
+.actBtn {
+  width: 27px; height: 27px; border-radius: 6px; border: 0.5px solid #e2e8f0; background: #fff;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #64748b; transition: all 0.15s;
+}
+.actBtn:hover { border-color: #1A2F5E; color: #1A2F5E; }
+.actBtnDanger:hover { border-color: #dc2626 !important; color: #dc2626 !important; }
+.tableFooter { padding: 10px 14px; font-size: 11.5px; color: #94a3b8; text-align: right; }
+.loadingMsg { padding: 40px; text-align: center; color: #94a3b8; font-size: 13px; }
+.emptyMsg { padding: 40px; text-align: center; color: #94a3b8; font-size: 13px; }
+
+/* Modal */
+.modalOverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+}
+.modal {
+  background: #fff; border-radius: 14px; width: 100%; max-width: 560px;
+  max-height: 90vh; overflow-y: auto; padding: 24px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.modalHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.modalTitle { font-size: 15px; font-weight: 700; color: #1A2F5E; margin: 0; }
+.modalClose { background: none; border: none; cursor: pointer; color: #94a3b8; padding: 4px 8px; border-radius: 6px; font-size: 16px; line-height: 1; }
+.modalClose:hover { background: #f1f5f9; color: #1A2F5E; }
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.formGroup { display: flex; flex-direction: column; gap: 5px; }
+.formGroupFull { display: flex; flex-direction: column; gap: 5px; grid-column: 1 / -1; }
+.formGroup label, .formGroupFull label { font-size: 11.5px; color: #64748b; font-weight: 500; }
+.formGroup input, .formGroup select, .formGroupFull input, .formGroupFull select {
+  padding: 7px 10px; border-radius: 7px; border: 0.5px solid #e2e8f0;
+  font-size: 12.5px; font-family: 'Poppins', sans-serif; color: #1A2F5E; background: #fff; outline: none;
+}
+.formGroup input:focus, .formGroup select:focus,
+.formGroupFull input:focus, .formGroupFull select:focus { border-color: #2E487C; }
+.inputReadonly { background: #f8fafc !important; color: #94a3b8 !important; cursor: not-allowed; }
+
+/* Sección gasto de obra */
+.obraSeccion { border: 0.5px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-top: 4px; }
+.obraToggleRow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: #f8fafc; }
+.obraToggleTexto { flex: 1; }
+.obraToggleTitulo { font-size: 12.5px; font-weight: 600; color: #1A2F5E; }
+.obraToggleSub { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+.toggleBtns { display: flex; border: 0.5px solid #e2e8f0; border-radius: 7px; overflow: hidden; flex-shrink: 0; }
+.toggleBtn { padding: 5px 18px; border: none; background: #fff; font-size: 12px; font-weight: 500; color: #64748b; cursor: pointer; font-family: 'Poppins', sans-serif; transition: all 0.15s; }
+.toggleBtn:first-child { border-right: 0.5px solid #e2e8f0; }
+.toggleBtn:hover { background: #f1f5f9; }
+.toggleBtnActivo { background: #1A2F5E !important; color: #fff !important; }
+.obraDetalle { padding: 14px; border-top: 0.5px solid #e2e8f0; background: #fff; }
+
+.formBtns { display: flex; gap: 8px; justify-content: flex-end; padding-top: 4px; }
+.btnCancel { padding: 8px 16px; border-radius: 7px; border: 0.5px solid #e2e8f0; background: #fff; color: #64748b; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif; }
+.btnCancel:hover { border-color: #1A2F5E; color: #1A2F5E; }
+.btnSave { padding: 8px 20px; border-radius: 7px; border: none; background: #FEC70B; color: #1A2F5E; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.15s; }
+.btnSave:hover { background: #f5bc00; }
+.btnSave:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .formGrid { grid-template-columns: 1fr; } .kpis { grid-template-columns: 1fr 1fr; } }

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "../../../supabase/client";
 import styles from "../../../styles/carteras/Casuarinas.module.css";
 import Boleta from "./Boleta";
+import ContratoModal from "./ContratoModal";
 
 const MEDIOS_PAGO = ["Efectivo", "Transferencia", "Yape / Plin", "Depósito"];
 const BANCOS      = ["BCP", "BBVA", "Interbank", "Scotiabank", "Otro"];
@@ -41,7 +42,15 @@ export default function Casuarinas() {
   const [anularModal, setAnularModal]   = useState(null);
   const [motivoAnulacion, setMotivoAnulacion] = useState("");
   const [anulando, setAnulando]         = useState(false);
-  const [tabActiva, setTabActiva]         = useState("pagos");
+  const [tabActiva, setTabActiva]       = useState("pagos");
+  const [modalNuevoSocio, setModalNuevoSocio] = useState(false);
+  const [guardandoSocio, setGuardandoSocio]   = useState(false);
+  const [nuevoSocio, setNuevoSocio] = useState({
+    apellidos: "", nombres: "", dni: "", celular: "",
+    sector: "1", manzana: "", lote: "",
+    servicio: "Agua, Desagüe y Electrificación",
+    monto_contratado: "", activo: true,
+  });
   const [filtroServicio, setFiltroServicio] = useState("todos");
   const [editandoMonto, setEditandoMonto] = useState(false);
   const [nuevoMonto, setNuevoMonto]     = useState("");
@@ -56,6 +65,17 @@ export default function Casuarinas() {
   const [kpis, setKpis] = useState({
     totalSocios: 0, totalPagado: 0, totalPendiente: 0,
     pagaronCompleto: 0, conSaldoAlto: 0,
+  });
+
+  // ── Modal contrato ──
+  const [socioContrato, setSocioContrato] = useState(null);
+
+  // ── Traspaso ──
+  const [showTraspaso, setShowTraspaso] = useState(false);
+  const [guardandoTraspaso, setGuardandoTraspaso] = useState(false);
+  const [nuevoTitular, setNuevoTitular] = useState({
+    apellidos: "", nombres: "", dni: "", celular: "",
+    fecha_traspaso: new Date().toISOString().split("T")[0],
   });
 
   const cargarSocios = useCallback(async () => {
@@ -162,8 +182,53 @@ export default function Casuarinas() {
     setAnulando(false);
   };
 
+  const guardarNuevoSocio = async () => {
+    if (!nuevoSocio.apellidos || !nuevoSocio.manzana || !nuevoSocio.lote || !nuevoSocio.monto_contratado) return;
+    setGuardandoSocio(true);
+    const { error } = await supabase.from("socios_casuarinas").insert({
+      apellidos:        nuevoSocio.apellidos.trim().toUpperCase(),
+      nombres:          nuevoSocio.nombres.trim().toUpperCase() || null,
+      dni:              nuevoSocio.dni.trim() || null,
+      celular:          nuevoSocio.celular.trim() || null,
+      sector:           nuevoSocio.sector,
+      manzana:          nuevoSocio.manzana.trim().toUpperCase(),
+      lote:             nuevoSocio.lote.trim(),
+      servicio:         nuevoSocio.servicio.trim() || null,
+      monto_contratado: Number(nuevoSocio.monto_contratado),
+      activo:           true,
+    });
+    if (!error) {
+      setModalNuevoSocio(false);
+      setNuevoSocio({ apellidos: "", nombres: "", dni: "", celular: "", sector: "1", manzana: "", lote: "", servicio: "Agua, Desagüe y Electrificación", monto_contratado: "", activo: true });
+      cargarSocios();
+    }
+    setGuardandoSocio(false);
+  };
+
   const guardarDatos = async () => {
     setGuardandoDatos(true);
+
+    // Verificar si la mz/lote ya existe en otro socio
+    if (datosSocio.manzana || datosSocio.lote) {
+      const { data: duplicado } = await supabase
+        .from("socios_casuarinas")
+        .select("id, apellidos, nombres")
+        .eq("manzana", datosSocio.manzana?.trim().toUpperCase())
+        .eq("lote", datosSocio.lote?.trim())
+        .neq("id", modalSocio.id)
+        .single();
+
+      if (duplicado) {
+        const confirmar = window.confirm(
+          `⚠️ Advertencia: La Mz. ${datosSocio.manzana} Lote ${datosSocio.lote} ya está ocupada por ${duplicado.apellidos} ${duplicado.nombres || ""}.\n\n¿Deseas continuar de todas formas?`
+        );
+        if (!confirmar) {
+          setGuardandoDatos(false);
+          return;
+        }
+      }
+    }
+
     const { error } = await supabase
       .from("socios_casuarinas")
       .update({
@@ -172,6 +237,8 @@ export default function Casuarinas() {
         dni:       datosSocio.dni?.trim(),
         celular:   datosSocio.celular?.trim(),
         servicio:  datosSocio.servicio?.trim(),
+        manzana:   datosSocio.manzana?.trim().toUpperCase(),
+        lote:      datosSocio.lote?.trim(),
       })
       .eq("id", modalSocio.id);
     if (!error) {
@@ -211,6 +278,40 @@ export default function Casuarinas() {
     }
   };
 
+  const guardarTraspaso = async () => {
+    if (!nuevoTitular.apellidos || !nuevoTitular.dni) return;
+    setGuardandoTraspaso(true);
+    const montoPagadoAnterior = Number(modalSocio.total_pagado) || 0;
+    const saldoRestante = Number(modalSocio.monto_contratado) - montoPagadoAnterior;
+    const { error } = await supabase
+      .from("socios_casuarinas")
+      .update({
+        titular_anterior:      `${modalSocio.apellidos} ${modalSocio.nombres || ""}`.trim(),
+        dni_anterior:          modalSocio.dni || null,
+        celular_anterior:      modalSocio.celular || null,
+        fecha_traspaso:        nuevoTitular.fecha_traspaso,
+        monto_pagado_anterior: montoPagadoAnterior,
+        apellidos: nuevoTitular.apellidos.trim().toUpperCase(),
+        nombres:   nuevoTitular.nombres.trim().toUpperCase() || null,
+        dni:       nuevoTitular.dni.trim() || null,
+        celular:   nuevoTitular.celular.trim() || null,
+      })
+      .eq("id", modalSocio.id);
+    if (!error) {
+      const { data: actualizado } = await supabase
+        .from("resumen_socios").select("*").eq("id", modalSocio.id).single();
+      if (actualizado) {
+        setModalSocio(actualizado);
+        // Abrir ContratoModal con saldo restante precargado
+        setSocioContrato({ ...actualizado, _montoSugerido: saldoRestante });
+      }
+      setShowTraspaso(false);
+      setNuevoTitular({ apellidos: "", nombres: "", dni: "", celular: "", fecha_traspaso: new Date().toISOString().split("T")[0] });
+      cargarSocios();
+    }
+    setGuardandoTraspaso(false);
+  };
+
   const sociosFiltrados = socios.filter((s) => {
     const pct = Number(s.porcentaje_pagado);
     if (filtro === "aldia"   && pct < 70)                return false;
@@ -238,6 +339,14 @@ export default function Casuarinas() {
         <Boleta pago={boletaData.pago} socio={boletaData.socio} onCerrar={() => setBoletaData(null)} />
       )}
 
+      {/* ── MODAL CONTRATO ── */}
+      {socioContrato && (
+        <ContratoModal
+          socio={socioContrato}
+          onClose={() => setSocioContrato(null)}
+        />
+      )}
+
       {/* KPIs */}
       <div className={styles.kpis}>
         <div className={styles.kpi}><div className={styles.kpiLabel}>Total socios</div><div className={styles.kpiVal}>{kpis.totalSocios}</div><div className={styles.kpiSub}>Casuarinas</div></div>
@@ -254,30 +363,28 @@ export default function Casuarinas() {
         <button className={`${styles.filterBtn} ${filtro === "parcial" ? styles.filterActive : ""}`} style={filtro === "parcial" ? {} : { background: "#fef9c3", color: "#854d0e", borderColor: "#fde68a" }} onClick={() => setFiltro("parcial")}>Parcial 30–69%</button>
         <button className={`${styles.filterBtn} ${filtro === "bajo"    ? styles.filterActive : ""}`} style={filtro === "bajo"    ? {} : { background: "#fee2e2", color: "#991b1b", borderColor: "#fecaca" }} onClick={() => setFiltro("bajo")}>Bajo &lt;30%</button>
         <input className={styles.search} type="text" placeholder="Buscar socio, lote o DNI..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
+        <button className={styles.btnNuevoSocio} onClick={() => setModalNuevoSocio(true)}>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.4"/><path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><path d="M12 9v4M10 11h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
+          Nuevo socio
+        </button>
       </div>
 
       {/* Filtros de servicio */}
       <div className={styles.servicioFiltros}>
         <span className={styles.servicioFiltroLabel}>Servicio:</span>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "todos" ? styles.servicioFiltroActive : ""}`} onClick={() => setFiltroServicio("todos")}>Todos</button>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "agua" ? styles.servicioFiltroActive : ""}`} style={{borderColor:"#0ea5e9",color: filtroServicio==="agua"?"#fff":"#0ea5e9", background: filtroServicio==="agua"?"#0ea5e9":"#f0f9ff"}} onClick={() => setFiltroServicio(filtroServicio === "agua" ? "todos" : "agua")}>
-          💧 Con agua
-        </button>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "sin_agua" ? styles.servicioFiltroActive : ""}`} style={{borderColor:"#0ea5e9",color: filtroServicio==="sin_agua"?"#fff":"#0ea5e9", background: filtroServicio==="sin_agua"?"#0ea5e9":"#f0f9ff"}} onClick={() => setFiltroServicio(filtroServicio === "sin_agua" ? "todos" : "sin_agua")}>
-          💧 Sin agua
-        </button>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "desague" ? styles.servicioFiltroActive : ""}`} style={{borderColor:"#8b5cf6",color: filtroServicio==="desague"?"#fff":"#8b5cf6", background: filtroServicio==="desague"?"#8b5cf6":"#f5f3ff"}} onClick={() => setFiltroServicio(filtroServicio === "desague" ? "todos" : "desague")}>
-          🔵 Con desagüe
-        </button>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "sin_desague" ? styles.servicioFiltroActive : ""}`} style={{borderColor:"#8b5cf6",color: filtroServicio==="sin_desague"?"#fff":"#8b5cf6", background: filtroServicio==="sin_desague"?"#8b5cf6":"#f5f3ff"}} onClick={() => setFiltroServicio(filtroServicio === "sin_desague" ? "todos" : "sin_desague")}>
-          🔵 Sin desagüe
-        </button>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "electrificacion" ? styles.servicioFiltroActive : ""}`} style={{borderColor:"#f59e0b",color: filtroServicio==="electrificacion"?"#fff":"#f59e0b", background: filtroServicio==="electrificacion"?"#f59e0b":"#fffbeb"}} onClick={() => setFiltroServicio(filtroServicio === "electrificacion" ? "todos" : "electrificacion")}>
-          ⚡ Con electrificación
-        </button>
-        <button className={`${styles.servicioFiltroBtn} ${filtroServicio === "sin_electrificacion" ? styles.servicioFiltroActive : ""}`} style={{borderColor:"#f59e0b",color: filtroServicio==="sin_electrificacion"?"#fff":"#f59e0b", background: filtroServicio==="sin_electrificacion"?"#f59e0b":"#fffbeb"}} onClick={() => setFiltroServicio(filtroServicio === "sin_electrificacion" ? "todos" : "sin_electrificacion")}>
-          ⚡ Sin electrificación
-        </button>
+        <select
+          className={styles.servicioSelect}
+          value={filtroServicio}
+          onChange={(e) => setFiltroServicio(e.target.value)}
+        >
+          <option value="todos">Todos</option>
+          <option value="agua">💧 Con agua</option>
+          <option value="sin_agua">💧 Sin agua</option>
+          <option value="desague">🔵 Con desagüe</option>
+          <option value="sin_desague">🔵 Sin desagüe</option>
+          <option value="electrificacion">⚡ Con electrificación</option>
+          <option value="sin_electrificacion">⚡ Sin electrificación</option>
+        </select>
       </div>
 
       {/* Leyenda */}
@@ -337,6 +444,18 @@ export default function Casuarinas() {
                           <button className={styles.actBtn} title="Registrar pago" onClick={() => abrirModal(s, true)}>
                             <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="3.5" width="13" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.4"/><path d="M5 8h6M8 5.5v5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
                           </button>
+                          {/* ── NUEVO: botón generar contrato ── */}
+                          <button
+                            className={styles.actBtn}
+                            title="Generar contrato"
+                            onClick={() => setSocioContrato(s)}
+                            style={{ color: "#1A2F5E" }}
+                          >
+                            <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+                              <rect x="2" y="1" width="12" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.4"/>
+                              <path d="M5 5h6M5 8h6M5 11h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                            </svg>
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -352,7 +471,7 @@ export default function Casuarinas() {
         <div className={styles.tableFooter}>Mostrando {sociosFiltrados.length} de {socios.length} socios</div>
       )}
 
-      {/* Modal */}
+      {/* Modal detalle socio */}
       {modalSocio && (
         <div className={styles.modalOverlay} onClick={cerrarModal}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -391,6 +510,14 @@ export default function Casuarinas() {
               >
                 <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.4"/><path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
                 Datos del socio
+              </button>
+              <button
+                className={`${styles.tab} ${tabActiva === "traspaso" ? styles.tabActive : ""}`}
+                onClick={() => setTabActiva("traspaso")}
+              >
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                Traspaso
+                {modalSocio.titular_anterior && <span style={{marginLeft:"4px",background:"#FEC70B",color:"#1A2F5E",borderRadius:"999px",fontSize:"10px",padding:"0 5px",fontWeight:"700"}}>1</span>}
               </button>
             </div>
 
@@ -500,7 +627,6 @@ export default function Casuarinas() {
             {tabActiva === "datos" && (
               <div className={styles.datosTab}>
 
-                {/* Editar monto contratado */}
                 <div className={styles.datosSeccion}>
                   <div className={styles.datosSeccTitle}>Monto contratado</div>
                   <div className={styles.editMontoRow}>
@@ -529,7 +655,6 @@ export default function Casuarinas() {
                   </div>
                 </div>
 
-                {/* Servicios instalados */}
                 <div className={styles.datosSeccion}>
                   <div className={styles.datosSeccTitle}>Servicios instalados</div>
                   <div className={styles.serviciosGrid}>
@@ -549,12 +674,11 @@ export default function Casuarinas() {
                   </div>
                 </div>
 
-                {/* Info del socio */}
                 <div className={styles.datosSeccion}>
                   <div className={styles.datosSeccTitleRow}>
                     <div className={styles.datosSeccTitle}>Información del socio</div>
                     {!editandoDatos ? (
-                      <button className={styles.btnEditDatos} onClick={() => { setEditandoDatos(true); setDatosSocio({ apellidos: modalSocio.apellidos, nombres: modalSocio.nombres || "", dni: modalSocio.dni || "", celular: modalSocio.celular || "", servicio: modalSocio.servicio || "" }); }}>
+                      <button className={styles.btnEditDatos} onClick={() => { setEditandoDatos(true); setDatosSocio({ apellidos: modalSocio.apellidos, nombres: modalSocio.nombres || "", dni: modalSocio.dni || "", celular: modalSocio.celular || "", servicio: modalSocio.servicio || "", manzana: modalSocio.manzana || "", lote: modalSocio.lote || "" }); }}>
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M11 2.5l2.5 2.5-7 7L4 13l.5-2.5 7-7z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
                         Editar
                       </button>
@@ -595,8 +719,12 @@ export default function Casuarinas() {
                         <span className={styles.infoVal}>{modalSocio.sector}</span>
                       </div>
                       <div className={styles.infoItem}>
-                        <span className={styles.infoKey}>Manzana / Lote</span>
-                        <span className={styles.infoVal}>{modalSocio.manzana}-{modalSocio.lote}</span>
+                        <span className={styles.infoKey}>Manzana</span>
+                        <input className={styles.infoInput} value={datosSocio.manzana || ""} onChange={(e) => setDatosSocio({...datosSocio, manzana: e.target.value})} />
+                      </div>
+                      <div className={styles.infoItem}>
+                        <span className={styles.infoKey}>Lote</span>
+                        <input className={styles.infoInput} value={datosSocio.lote || ""} onChange={(e) => setDatosSocio({...datosSocio, lote: e.target.value})} />
                       </div>
                     </div>
                   ) : (
@@ -615,46 +743,220 @@ export default function Casuarinas() {
               </div>
             )}
 
+            {/* ── PESTAÑA TRASPASO ── */}
+            {tabActiva === "traspaso" && (
+              <div className={styles.datosTab}>
+
+                {/* Titular anterior registrado */}
+                {modalSocio.titular_anterior ? (
+                  <div className={styles.datosSeccion}>
+                    <div className={styles.datosSeccTitle}>Último traspaso registrado</div>
+                    <div className={styles.traspasoCard}>
+                      <div className={styles.traspasoCardHeader}>
+                        <span className={styles.traspasoIcono}>🔄</span>
+                        <div>
+                          <div className={styles.traspasoTitularNombre}>{modalSocio.titular_anterior}</div>
+                          <div className={styles.traspasoTitularSub}>Titular anterior</div>
+                        </div>
+                        <div className={styles.traspasoBadge}>
+                          {modalSocio.fecha_traspaso
+                            ? new Date(modalSocio.fecha_traspaso + "T12:00:00").toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric" })
+                            : "—"}
+                        </div>
+                      </div>
+                      <div className={styles.infoGrid} style={{marginTop:"10px"}}>
+                        <div className={styles.infoItem}><span className={styles.infoKey}>DNI anterior</span><span className={styles.infoVal}>{modalSocio.dni_anterior || "—"}</span></div>
+                        <div className={styles.infoItem}><span className={styles.infoKey}>Celular anterior</span><span className={styles.infoVal}>{modalSocio.celular_anterior || "—"}</span></div>
+                        <div className={styles.infoItem}><span className={styles.infoKey}>Monto que pagó</span><span className={styles.infoVal} style={{color:"#15803d",fontWeight:"600"}}>{fmt(modalSocio.monto_pagado_anterior)}</span></div>
+                        <div className={styles.infoItem}><span className={styles.infoKey}>Saldo que dejó</span><span className={styles.infoVal} style={{color:"#dc2626",fontWeight:"600"}}>{fmt(Number(modalSocio.monto_contratado) - Number(modalSocio.monto_pagado_anterior))}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.datosSeccion}>
+                    <div style={{color:"#94a3b8",fontSize:"13px",textAlign:"center",padding:"16px 0"}}>
+                      Este lote no tiene traspasos registrados.
+                    </div>
+                  </div>
+                )}
+
+                {/* Formulario nuevo traspaso */}
+                <div className={styles.datosSeccion}>
+                  <div className={styles.datosSeccTitleRow}>
+                    <div className={styles.datosSeccTitle}>Registrar nuevo traspaso</div>
+                  </div>
+                  <div style={{fontSize:"12px",color:"#64748b",marginBottom:"12px",background:"#fef9c3",border:"1px solid #fde68a",borderRadius:"8px",padding:"8px 12px"}}>
+                    ⚠️ Al registrar el traspaso, los datos del titular actual (<strong>{modalSocio.apellidos} {modalSocio.nombres || ""}</strong>) quedarán guardados como titular anterior y serán reemplazados por el nuevo titular.
+                  </div>
+
+                  {!showTraspaso ? (
+                    <button className={styles.btnRegistrar} onClick={() => setShowTraspaso(true)}>
+                      🔄 Registrar traspaso
+                    </button>
+                  ) : (
+                    <div className={styles.pagoForm}>
+                      <div className={styles.pagoFormRow}>
+                        <div className={styles.pagoFormGroup}>
+                          <label>Apellidos nuevo titular *</label>
+                          <input type="text" placeholder="GARCÍA LÓPEZ" value={nuevoTitular.apellidos}
+                            onChange={(e) => setNuevoTitular({...nuevoTitular, apellidos: e.target.value})} />
+                        </div>
+                        <div className={styles.pagoFormGroup}>
+                          <label>Nombres</label>
+                          <input type="text" placeholder="JUAN CARLOS" value={nuevoTitular.nombres}
+                            onChange={(e) => setNuevoTitular({...nuevoTitular, nombres: e.target.value})} />
+                        </div>
+                      </div>
+                      <div className={styles.pagoFormRow}>
+                        <div className={styles.pagoFormGroup}>
+                          <label>DNI nuevo titular *</label>
+                          <input type="text" placeholder="12345678" maxLength={8} value={nuevoTitular.dni}
+                            onChange={(e) => setNuevoTitular({...nuevoTitular, dni: e.target.value})} />
+                        </div>
+                        <div className={styles.pagoFormGroup}>
+                          <label>Celular</label>
+                          <input type="text" placeholder="987654321" value={nuevoTitular.celular}
+                            onChange={(e) => setNuevoTitular({...nuevoTitular, celular: e.target.value})} />
+                        </div>
+                      </div>
+                      <div className={styles.pagoFormRow}>
+                        <div className={styles.pagoFormGroup}>
+                          <label>Fecha de traspaso</label>
+                          <input type="date" value={nuevoTitular.fecha_traspaso}
+                            onChange={(e) => setNuevoTitular({...nuevoTitular, fecha_traspaso: e.target.value})} />
+                        </div>
+                        <div className={styles.pagoFormGroup} />
+                      </div>
+                      <div className={styles.pagoFormBtns}>
+                        <button className={styles.btnCancel} onClick={() => setShowTraspaso(false)}>Cancelar</button>
+                        <button
+                          className={styles.btnSave}
+                          onClick={guardarTraspaso}
+                          disabled={guardandoTraspaso || !nuevoTitular.apellidos || !nuevoTitular.dni}
+                        >
+                          {guardandoTraspaso ? "Guardando..." : "✓ Confirmar traspaso"}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            )}
+
           </div>
         </div>
       )}
-    {/* Modal anulación */}
-    {anularModal && (
-      <div className={styles.modalOverlay} onClick={() => { setAnularModal(null); setMotivoAnulacion(""); }}>
-        <div className={styles.modal} style={{maxWidth:"420px"}} onClick={(e) => e.stopPropagation()}>
-          <div className={styles.modalHeader}>
-            <div>
-              <div className={styles.modalTitle} style={{color:"#dc2626"}}>Anular pago</div>
-              <div className={styles.modalSub}>
-                {fmt(anularModal.monto)} · {anularModal.fecha ? new Date(anularModal.fecha + "T00:00:00").toLocaleDateString("es-PE") : "Sin fecha"}
-                {anularModal.numero_boleta ? ` · ${anularModal.numero_boleta}` : ""}
+      {modalNuevoSocio && (
+        <div className={styles.modalOverlay} onClick={() => setModalNuevoSocio(false)}>
+          <div className={styles.modal} style={{maxWidth:"520px"}} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div>
+                <div className={styles.modalTitle}>Registrar nuevo socio</div>
+                <div className={styles.modalSub}>Completa los datos del nuevo socio de Casuarinas</div>
+              </div>
+              <button className={styles.modalClose} onClick={() => setModalNuevoSocio(false)}>✕</button>
+            </div>
+
+            <div className={styles.pagoFormRow}>
+              <div className={styles.pagoFormGroup}>
+                <label>Apellidos *</label>
+                <input type="text" placeholder="GARCÍA LÓPEZ" value={nuevoSocio.apellidos} onChange={(e) => setNuevoSocio({...nuevoSocio, apellidos: e.target.value})} />
+              </div>
+              <div className={styles.pagoFormGroup}>
+                <label>Nombres</label>
+                <input type="text" placeholder="JUAN CARLOS" value={nuevoSocio.nombres} onChange={(e) => setNuevoSocio({...nuevoSocio, nombres: e.target.value})} />
               </div>
             </div>
-            <button className={styles.modalClose} onClick={() => { setAnularModal(null); setMotivoAnulacion(""); }}>✕</button>
-          </div>
-          <div className={styles.pagoFormGroup}>
-            <label>Motivo de anulación</label>
-            <input
-              type="text"
-              placeholder="Ej: Pago duplicado, error en monto..."
-              value={motivoAnulacion}
-              onChange={(e) => setMotivoAnulacion(e.target.value)}
-              style={{width:"100%"}}
-            />
-          </div>
-          <div className={styles.pagoFormBtns}>
-            <button className={styles.btnCancel} onClick={() => { setAnularModal(null); setMotivoAnulacion(""); }}>Cancelar</button>
-            <button
-              className={styles.btnAnularConfirm}
-              onClick={confirmarAnulacion}
-              disabled={anulando || !motivoAnulacion.trim()}
-            >
-              {anulando ? "Anulando..." : "Confirmar anulación"}
-            </button>
+
+            <div className={styles.pagoFormRow}>
+              <div className={styles.pagoFormGroup}>
+                <label>DNI</label>
+                <input type="text" placeholder="12345678" maxLength={8} value={nuevoSocio.dni} onChange={(e) => setNuevoSocio({...nuevoSocio, dni: e.target.value})} />
+              </div>
+              <div className={styles.pagoFormGroup}>
+                <label>Celular</label>
+                <input type="text" placeholder="987654321" value={nuevoSocio.celular} onChange={(e) => setNuevoSocio({...nuevoSocio, celular: e.target.value})} />
+              </div>
+            </div>
+
+            <div className={styles.pagoFormRow}>
+              <div className={styles.pagoFormGroup}>
+                <label>Sector</label>
+                <input type="text" placeholder="1" value={nuevoSocio.sector} onChange={(e) => setNuevoSocio({...nuevoSocio, sector: e.target.value})} />
+              </div>
+              <div className={styles.pagoFormGroup}>
+                <label>Manzana *</label>
+                <input type="text" placeholder="A1" value={nuevoSocio.manzana} onChange={(e) => setNuevoSocio({...nuevoSocio, manzana: e.target.value})} />
+              </div>
+              <div className={styles.pagoFormGroup}>
+                <label>Lote *</label>
+                <input type="text" placeholder="10" value={nuevoSocio.lote} onChange={(e) => setNuevoSocio({...nuevoSocio, lote: e.target.value})} />
+              </div>
+            </div>
+
+            <div className={styles.pagoFormRow}>
+              <div className={styles.pagoFormGroup}>
+                <label>Servicio contratado</label>
+                <input type="text" placeholder="Agua, Desagüe y Electrificación" value={nuevoSocio.servicio} onChange={(e) => setNuevoSocio({...nuevoSocio, servicio: e.target.value})} />
+              </div>
+              <div className={styles.pagoFormGroup}>
+                <label>Monto contratado (S/) *</label>
+                <input type="number" placeholder="7500" value={nuevoSocio.monto_contratado} onChange={(e) => setNuevoSocio({...nuevoSocio, monto_contratado: e.target.value})} />
+              </div>
+            </div>
+
+            <div className={styles.pagoFormBtns}>
+              <button className={styles.btnCancel} onClick={() => setModalNuevoSocio(false)}>Cancelar</button>
+              <button
+                className={styles.btnSave}
+                onClick={guardarNuevoSocio}
+                disabled={guardandoSocio || !nuevoSocio.apellidos || !nuevoSocio.manzana || !nuevoSocio.lote || !nuevoSocio.monto_contratado}
+              >
+                {guardandoSocio ? "Guardando..." : "Registrar socio"}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
+
+      {/* Modal anulación */}
+      {anularModal && (
+        <div className={styles.modalOverlay} onClick={() => { setAnularModal(null); setMotivoAnulacion(""); }}>
+          <div className={styles.modal} style={{maxWidth:"420px"}} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <div>
+                <div className={styles.modalTitle} style={{color:"#dc2626"}}>Anular pago</div>
+                <div className={styles.modalSub}>
+                  {fmt(anularModal.monto)} · {anularModal.fecha ? new Date(anularModal.fecha + "T00:00:00").toLocaleDateString("es-PE") : "Sin fecha"}
+                  {anularModal.numero_boleta ? ` · ${anularModal.numero_boleta}` : ""}
+                </div>
+              </div>
+              <button className={styles.modalClose} onClick={() => { setAnularModal(null); setMotivoAnulacion(""); }}>✕</button>
+            </div>
+            <div className={styles.pagoFormGroup}>
+              <label>Motivo de anulación</label>
+              <input
+                type="text"
+                placeholder="Ej: Pago duplicado, error en monto..."
+                value={motivoAnulacion}
+                onChange={(e) => setMotivoAnulacion(e.target.value)}
+                style={{width:"100%"}}
+              />
+            </div>
+            <div className={styles.pagoFormBtns}>
+              <button className={styles.btnCancel} onClick={() => { setAnularModal(null); setMotivoAnulacion(""); }}>Cancelar</button>
+              <button
+                className={styles.btnAnularConfirm}
+                onClick={confirmarAnulacion}
+                disabled={anulando || !motivoAnulacion.trim()}
+              >
+                {anulando ? "Anulando..." : "Confirmar anulación"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

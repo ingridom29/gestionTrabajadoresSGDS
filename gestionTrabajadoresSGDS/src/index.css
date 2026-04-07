@@ -119,3 +119,9 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+input, select, textarea {
+  color-scheme: light;
+  background-color: #fff;
+  color: #1A2F5E;
+}

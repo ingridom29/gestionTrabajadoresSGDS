@@ -1,0 +1,353 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 50, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(26, 47, 94, 0.25);
+  animation: slideUp 0.25s ease;
+  scrollbar-width: thin;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.4rem 1.6rem 1.2rem;
+  border-bottom: 1px solid #e8ecf4;
+  background: linear-gradient(135deg, #1A2F5E 0%, #2E487C 100%);
+  border-radius: 16px 16px 0 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.iconDoc {
+  font-size: 1.6rem;
+}
+
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.75rem;
+  color: #a8bde0;
+  margin: 0;
+}
+
+.closeBtn {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.closeBtn:hover {
+  background: rgba(255,255,255,0.28);
+}
+
+/* Socio card */
+.socioCard {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.6rem;
+  background: #f4f6f9;
+  border-bottom: 1px solid #e8ecf4;
+}
+
+.socioAvatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1A2F5E, #5e7ede);
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.socioNombre {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: #1A2F5E;
+  display: block;
+}
+
+.socioDatos {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  color: #6b7a99;
+}
+
+/* Form */
+.form {
+  padding: 1.4rem 1.6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #2E487C;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.input {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid #d1d9ee;
+  border-radius: 8px;
+  color: #1A2F5E;
+  background: #fafbfd;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #2E487C;
+  box-shadow: 0 0 0 3px rgba(46, 72, 124, 0.12);
+  background: #fff;
+}
+
+.inputError {
+  border-color: #e05252;
+}
+
+.error {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  color: #e05252;
+}
+
+/* Resumen */
+.resumen {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, #1A2F5E 0%, #2E487C 100%);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+}
+
+.resumenTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #a8bde0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.75rem;
+}
+
+.resumenGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.resumenItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.resumenLabel {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  color: #a8bde0;
+}
+
+.resumenValor {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.resumenDestacado {
+  background: rgba(254, 199, 11, 0.15);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(254, 199, 11, 0.3);
+}
+
+.resumenValorGrande {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FEC70B;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.6rem 1.4rem;
+  border-top: 1px solid #e8ecf4;
+}
+
+.btnCancelar {
+  flex: 1;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.65rem;
+  border: 1.5px solid #d1d9ee;
+  border-radius: 8px;
+  background: #fff;
+  color: #6b7a99;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnCancelar:hover {
+  border-color: #2E487C;
+  color: #2E487C;
+}
+
+.btnGenerar {
+  flex: 2;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.65rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1A2F5E, #2E487C);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btnGenerar:hover:not(:disabled) {
+  background: linear-gradient(135deg, #2E487C, #3d5fa0);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(26, 47, 94, 0.3);
+}
+
+.btnGenerar:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.traspasoCard {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.traspasoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.traspasoIcono {
+  font-size: 1.4rem;
+}
+
+.traspasoTitularNombre {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1A2F5E;
+}
+
+.traspasoTitularSub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.traspasoBadge {
+  margin-left: auto;
+  background: #e0e7ff;
+  color: #3730a3;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.traspasoBanner {
+  margin: 0 1.6rem;
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.78rem;
+  color: #854d0e;
+  line-height: 1.5;
+}

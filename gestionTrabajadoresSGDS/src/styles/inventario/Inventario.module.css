@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ── Base ── */
+.wrap { font-family: 'Poppins', system-ui, sans-serif; display: flex; flex-direction: column; gap: 0; }
+
+/* ── Pestañas ── */
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  background: #e8ecf4;
+  border-radius: 12px;
+  padding: 5px;
+  width: fit-content;
+}
+.tab {
+  display: flex;
+  align-items: center;
+  padding: 7px 18px;
+  border: none;
+  background: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.tab:hover { background: #fff; color: #1A2F5E; }
+.tabActive {
+  background: #1A2F5E !important;
+  color: #fff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(26, 47, 94, 0.18);
+}
+/* ── Sección ── */
+.seccion { display: flex; flex-direction: column; gap: 16px; }
+.content { padding-top: 4px; }
+
+/* ── Toolbar ── */
+.toolbar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: #fff; border-radius: 10px;
+  border: 0.5px solid #e2e8f0; padding: 12px 16px;
+}
+.select {
+  padding: 7px 12px; border-radius: 8px;
+  border: 0.5px solid #e2e8f0; font-size: 12.5px;
+  color: #1A2F5E; background: #f8fafc;
+  font-family: 'Poppins', sans-serif; outline: none;
+  min-width: 180px; cursor: pointer;
+}
+.select:focus { border-color: #1A2F5E; }
+.search {
+  padding: 7px 12px; border-radius: 8px;
+  border: 0.5px solid #e2e8f0; font-size: 12.5px;
+  color: #1A2F5E; background: #f8fafc;
+  font-family: 'Poppins', sans-serif; outline: none;
+  flex: 1; min-width: 180px;
+}
+.search:focus { border-color: #1A2F5E; }
+
+/* ── Banner alerta ── */
+.alertaBanner {
+  display: flex; align-items: center; gap: 10px;
+  background: #fff5f5; border: 1px solid #fecaca;
+  border-radius: 10px; padding: 12px 16px;
+  font-size: 13px; color: #dc2626;
+}
+.btnAlertaFiltro {
+  margin-left: auto; padding: 4px 12px; border-radius: 6px;
+  border: 1px solid #fecaca; background: #fff;
+  color: #dc2626; font-size: 12px; cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+.btnAlertaFiltro:hover { background: #dc2626; color: #fff; }
+
+/* ── Info stock ── */
+.stockInfo {
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; color: #1d4ed8;
+}
+
+/* ── Tabla ── */
+.tableWrap { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.tbl th { padding: 10px 14px; text-align: left; font-size: 10.5px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.7px; border-bottom: 0.5px solid #e2e8f0; background: #f8fafc; white-space: nowrap; }
+.tbl td { padding: 11px 14px; border-bottom: 0.5px solid #f1f5f9; color: #334155; vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: #f8fafc; }
+.rowAlerta td { background: #fff5f5 !important; }
+.rowAlerta:hover td { background: #fee2e2 !important; }
+.rowInactivo td { opacity: 0.5; }
+.emptyMsg { padding: 30px; text-align: center; color: #94a3b8; font-size: 13px; }
+.loadingMsg { padding: 40px; text-align: center; color: #94a3b8; font-size: 13px; }
+
+.productoNombre { font-weight: 600; color: #1A2F5E; }
+.unidad { font-size: 11px; color: #94a3b8; font-weight: 400; }
+.cantNum { font-weight: 600; color: #1A2F5E; }
+.motivo { font-size: 11.5px; color: #64748b; }
+.stockOk { color: #15803d; font-weight: 600; }
+.stockBajo { color: #dc2626; font-weight: 600; }
+.stockMin { color: #94a3b8; }
+
+/* ── Badges ── */
+.badgeOk { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #dcfce7; color: #15803d; }
+.badgeBajo { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #fef9c3; color: #854d0e; }
+.badgeAgotado { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #fee2e2; color: #dc2626; }
+.badgeInactivo { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; background: #f1f5f9; color: #94a3b8; }
+.tipoBadge { display: inline-flex; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+/* ── Formulario ── */
+.formCard { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+.formTitle { font-size: 15px; font-weight: 700; color: #1A2F5E; }
+.formDesc { font-size: 12.5px; color: #94a3b8; margin-top: -8px; }
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.formGroup { display: flex; flex-direction: column; gap: 5px; }
+.formGroup label { font-size: 11.5px; color: #64748b; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; }
+.input {
+  padding: 8px 12px; border-radius: 8px;
+  border: 0.5px solid #e2e8f0; font-size: 13px;
+  font-family: 'Poppins', sans-serif; color: #1A2F5E;
+  background: #fff; outline: none; transition: border-color 0.15s;
+}
+.input:focus { border-color: #1A2F5E; }
+.input:disabled { background: #f8fafc; color: #94a3b8; }
+.checkRow { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; cursor: pointer; }
+
+/* ── Botones ── */
+.btnPrimary {
+  padding: 10px 20px; border-radius: 8px;
+  background: #1A2F5E; color: #fff; border: none;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: 'Poppins', sans-serif; transition: background 0.15s;
+  align-self: flex-start;
+}
+.btnPrimary:hover { background: #2E487C; }
+.btnPrimary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btnSecondary {
+  padding: 7px 14px; border-radius: 8px;
+  border: 0.5px solid #e2e8f0; background: #fff;
+  color: #64748b; font-size: 12.5px; cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+.btnSecondary:hover { border-color: #1A2F5E; color: #1A2F5E; }
+.btnDesactivar {
+  padding: 4px 10px; border-radius: 6px;
+  border: 0.5px solid #fecaca; background: #fff5f5;
+  color: #dc2626; font-size: 11.5px; cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+.btnDesactivar:hover { background: #dc2626; color: #fff; }
+.btnActivar {
+  padding: 4px 10px; border-radius: 6px;
+  border: 0.5px solid #bbf7d0; background: #f0fdf4;
+  color: #15803d; font-size: 11.5px; cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+.btnActivar:hover { background: #15803d; color: #fff; }
+
+.exitoMsg { background: #dcfce7; color: #15803d; border-radius: 8px; padding: 10px 14px; font-size: 13px; font-weight: 500; }
+
+/* ── Lista config ── */
+.listaItems { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.itemRow {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 10px 14px;
+  background: #f8fafc; border-radius: 8px;
+  border: 0.5px solid #e2e8f0;
+}
+.itemInactivo { opacity: 0.5; }
+.itemInfo { display: flex; flex-direction: column; gap: 2px; }
+.itemNombre { font-size: 13px; font-weight: 600; color: #1A2F5E; }
+.itemSub { font-size: 11.5px; color: #94a3b8; }
+.itemAcciones { display: flex; align-items: center; gap: 8px; }
+
+@media (max-width: 768px) {
+  .formGrid { grid-template-columns: 1fr; }
+  .tabs { gap: 0; }
+  .tab { padding: 8px 12px; font-size: 12px; }
+}

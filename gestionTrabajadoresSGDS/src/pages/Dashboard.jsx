@@ -4,6 +4,10 @@ import styles from "../styles/Dashboard.module.css";
 import Carteras from "./carteras/Carteras";
 import Casuarinas from "./carteras/casuarinas/Casuarinas";
 import ReportesCasuarinas from "./carteras/casuarinas/ReportesCasuarinas";
+import Inventario from "./inventario/Inventario";
+import Empleados from "./empleados/Empleados";
+import Gastos from "./gastos/Gastos";
+import Asistencia from "./empleados/Asistencia";
 
 const MODULES = [
   {
@@ -25,22 +29,16 @@ const MODULES = [
     icon: (<svg width="20" height="20" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="11" rx="2" stroke="#15803d" strokeWidth="1.4" /><path d="M5 3V1M11 3V1M1 7h14" stroke="#15803d" strokeWidth="1.4" strokeLinecap="round" /></svg>),
   },
   {
-    key: "planillas", title: "Planillas",
-    desc: "Cálculo de haberes, descuentos, gratificaciones y boletas de pago.", count: "Mes actual pendiente",
+    key: "gastos", title: "Gastos",
+    desc: "Control de gastos por obra, gastos personales y compensaciones.", count: "Ver registros",
     colorClass: styles.iconOrange,
-    icon: (<svg width="20" height="20" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#c2410c" strokeWidth="1.4" /><path d="M5 8h6M5 5h6M5 11h3" stroke="#c2410c" strokeWidth="1.4" strokeLinecap="round" /></svg>),
+    icon: (<svg width="20" height="20" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="9" rx="2" stroke="#c2410c" strokeWidth="1.4" /><path d="M1 7h14M5 10h2M10 10h1" stroke="#c2410c" strokeWidth="1.4" strokeLinecap="round" /></svg>),
   },
   {
-    key: "vacaciones", title: "Vacaciones",
-    desc: "Control de días de descanso, solicitudes y cronograma de vacaciones.", count: "3 solicitudes",
-    colorClass: styles.iconPurple,
-    icon: (<svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M13 2H3a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V3a1 1 0 00-1-1z" stroke="#7e22ce" strokeWidth="1.4" /><path d="M5 8l2 2 4-4" stroke="#7e22ce" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>),
-  },
-  {
-    key: "reportes", title: "Reportes",
-    desc: "Exporta informes en PDF/Excel de asistencia, planillas y rendimiento.", count: "Disponibles",
+    key: "carteras", title: "Carteras",
+    desc: "Gestión de socios, cobranza, boletas y contratos por cartera.", count: "Ver carteras",
     colorClass: styles.iconTeal,
-    icon: (<svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M2 12L5 6l3 3 3-5 3 3M2 14h12" stroke="#0369a1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+    icon: (<svg width="20" height="20" viewBox="0 0 16 16" fill="none"><path d="M2 13h12M4 13V7l4-4 4 4v6" stroke="#0369a1" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" /><rect x="6" y="10" width="4" height="3" rx="0.5" stroke="#0369a1" strokeWidth="1.4" /></svg>),
   },
 ];
 
@@ -74,6 +72,10 @@ function getPageTitle(activeNav) {
   if (activeNav === "carteras")            return "Carteras";
   if (activeNav === "casuarinas")          return "Carteras — Casuarinas";
   if (activeNav === "reportes_casuarinas") return "Carteras — Reportes Casuarinas";
+  if (activeNav === "inventario")          return "Inventario";
+  if (activeNav === "empleados")           return "Empleados";
+  if (activeNav === "gastos")              return "Gastos";
+  if (activeNav === "asistencia")          return "Asistencia";
   const mod = MODULES.find((m) => m.key === activeNav);
   return mod ? mod.title : "Dashboard";
 }
@@ -97,6 +99,10 @@ export default function Dashboard() {
     if (activeNav === "carteras")            return <Carteras onNavegar={setActiveNav} />;
     if (activeNav === "casuarinas")          return <Casuarinas />;
     if (activeNav === "reportes_casuarinas") return <ReportesCasuarinas />;
+    if (activeNav === "inventario")          return <Inventario />;
+    if (activeNav === "empleados")           return <Empleados />;
+    if (activeNav === "gastos")              return <Gastos />;
+    if (activeNav === "asistencia")          return <Asistencia />;
     return (
       <>
         <div className={styles.sectionLabel}>Resumen del mes</div>
@@ -140,7 +146,10 @@ export default function Dashboard() {
 
         <nav className={styles.nav}>
           <div className={styles.navLabel}>Principal</div>
-          <button className={`${styles.navItem} ${activeNav === "dashboard" ? styles.navItemActive : ""}`} onClick={() => setActiveNav("dashboard")}>
+          <button
+            className={`${styles.navItem} ${activeNav === "dashboard" ? styles.navItemActive : ""}`}
+            onClick={() => setActiveNav("dashboard")}
+          >
             <svg className={styles.navIcon} viewBox="0 0 16 16" fill="none">
               <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.9" />
               <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity="0.5" />
@@ -151,12 +160,58 @@ export default function Dashboard() {
           </button>
 
           <div className={styles.navLabel}>Módulos</div>
-          {MODULES.map((m) => (
-            <button key={m.key} className={`${styles.navItem} ${activeNav === m.key ? styles.navItemActive : ""}`} onClick={() => setActiveNav(m.key)}>
-              <span className={styles.navIconSmall}>{m.icon}</span>
-              {m.title}
-            </button>
-          ))}
+
+          {/* Empleados */}
+          <button
+            className={`${styles.navItem} ${activeNav === "empleados" ? styles.navItemActive : ""}`}
+            onClick={() => setActiveNav("empleados")}
+          >
+            <svg className={styles.navIcon} viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+            Empleados
+          </button>
+
+          {/* Asistencia */}
+          <button
+            className={`${styles.navItem} ${activeNav === "asistencia" ? styles.navItemActive : ""}`}
+            onClick={() => setActiveNav("asistencia")}
+          >
+            <svg className={styles.navIcon} viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="3" width="14" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M5 3V1M11 3V1M1 7h14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+            Asistencia
+          </button>
+
+          {/* Gastos */}
+          <button
+            className={`${styles.navItem} ${activeNav === "gastos" ? styles.navItemActive : ""}`}
+            onClick={() => setActiveNav("gastos")}
+          >
+            <svg className={styles.navIcon} viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="4" width="14" height="9" rx="2" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M1 7h14M5 10h2M10 10h1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+            Gastos
+          </button>
+
+
+
+          {/* Inventario */}
+          <button
+            className={`${styles.navItem} ${activeNav === "inventario" ? styles.navItemActive : ""}`}
+            onClick={() => setActiveNav("inventario")}
+          >
+            <svg className={styles.navIcon} viewBox="0 0 16 16" fill="none">
+              <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.4" />
+              <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.4" />
+              <rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.4" />
+              <rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.4" />
+            </svg>
+            Inventario
+          </button>
 
           <div className={styles.navLabel}>Carteras</div>
 

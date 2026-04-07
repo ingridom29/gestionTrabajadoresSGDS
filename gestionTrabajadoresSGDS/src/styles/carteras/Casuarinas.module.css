@@ -317,3 +317,76 @@
   transition: border-color 0.15s;
 }
 .infoInput:focus { border-color: #5e7ede; }
+
+/* ── Botón nuevo socio ── */
+.btnNuevoSocio {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 8px;
+  background: #1A2F5E; color: #fff; border: none;
+  font-size: 12.5px; font-weight: 600; cursor: pointer;
+  font-family: 'Poppins', sans-serif; transition: background 0.15s;
+  white-space: nowrap; margin-left: auto;
+}
+.btnNuevoSocio:hover { background: #2E487C; }
+
+/* ── Agregar al final de Casuarinas.module.css ── */
+
+.traspasoCard {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.traspasoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.traspasoIcono {
+  font-size: 1.4rem;
+}
+
+.traspasoTitularNombre {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1A2F5E;
+}
+
+.traspasoTitularSub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.traspasoBadge {
+  margin-left: auto;
+  background: #e0e7ff;
+  color: #3730a3;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.servicioSelect {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.9rem;
+  border: 1.5px solid #d1d9ee;
+  border-radius: 8px;
+  color: #1A2F5E;
+  background: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.servicioSelect:focus {
+  border-color: #2E487C;
+  box-shadow: 0 0 0 3px rgba(46, 72, 124, 0.1);
+}

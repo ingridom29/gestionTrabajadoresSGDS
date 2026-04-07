@@ -1,0 +1,20 @@
+/* ── Gastos.module.css ── */
+.wrap { font-family: 'Poppins', system-ui, sans-serif; }
+
+/* Tabs principales */
+.tabs {
+  display: flex; gap: 4px;
+  border-bottom: 1.5px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+.tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border: none; background: none;
+  font-size: 13px; font-weight: 500; color: #94a3b8;
+  cursor: pointer; border-bottom: 2px solid transparent;
+  margin-bottom: -1.5px; font-family: 'Poppins', sans-serif;
+  transition: all 0.15s;
+}
+.tab:hover { color: #1A2F5E; }
+.tabActiva { color: #1A2F5E !important; border-bottom-color: #1A2F5E !important; }
+.tabIcon { width: 14px; height: 14px; flex-shrink: 0; }
