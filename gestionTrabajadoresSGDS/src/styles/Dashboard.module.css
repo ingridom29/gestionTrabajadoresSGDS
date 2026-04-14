@@ -386,3 +386,24 @@
   .kpiGrid { grid-template-columns: 1fr 1fr; }
   .modulesGrid { grid-template-columns: 1fr; }
 }
+
+.sidebarFooter {
+  padding: 16px 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.userRow { display: flex; align-items: center; gap: 10px; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #2E487C; border: 2px solid rgba(254,199,11,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: #FEC70B; flex-shrink: 0;
+}
+.userInfo { flex: 1; min-width: 0; }
+.userName { font-size: 12px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.userRole { font-size: 10px; color: rgba(255,255,255,0.38); margin-top: 1px; }
+.logoutBtn {
+  background: none; border: none; cursor: pointer;
+  color: rgba(255,255,255,0.35); padding: 4px;
+  display: flex; align-items: center; border-radius: 6px; transition: color 0.15s, background 0.15s;
+}
+.logoutBtn:hover { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.08); }

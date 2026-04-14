@@ -3,18 +3,13 @@
 .wrap { font-family: 'Poppins', system-ui, sans-serif; }
 
 /* Vista tabs */
-.vistaTabs {
-  display: flex; gap: 4px;
-  border-bottom: 1.5px solid #e2e8f0;
-  margin-bottom: 16px;
-}
+.vistaTabs { display: flex; gap: 4px; border-bottom: 1.5px solid #e2e8f0; margin-bottom: 16px; }
 .vistaTab {
   display: flex; align-items: center; gap: 6px;
   padding: 8px 16px; border: none; background: none;
   font-size: 13px; font-weight: 500; color: #94a3b8;
   cursor: pointer; border-bottom: 2px solid transparent;
-  margin-bottom: -1.5px; font-family: 'Poppins', sans-serif;
-  transition: all 0.15s;
+  margin-bottom: -1.5px; font-family: 'Poppins', sans-serif; transition: all 0.15s;
 }
 .vistaTab:hover { color: #1A2F5E; }
 .vistaTabActivo { color: #1A2F5E !important; border-bottom-color: #1A2F5E !important; font-weight: 600; }
@@ -31,8 +26,7 @@
 .btnSubir {
   padding: 7px 16px; border-radius: 7px; border: none;
   background: #1A2F5E; color: #fff; font-size: 12.5px; font-weight: 600;
-  cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap;
-  transition: background 0.15s;
+  cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap; transition: background 0.15s;
 }
 .btnSubir:hover { background: #2E487C; }
 
@@ -44,22 +38,17 @@
 }
 
 /* Preview */
-.previewBox {
-  background: #fff; border: 0.5px solid #e2e8f0; border-radius: 10px;
-  overflow: hidden; margin-bottom: 14px;
-}
+.previewBox { background: #fff; border: 0.5px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
 .previewHeader {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px; background: #f8fafc; border-bottom: 0.5px solid #e2e8f0;
-  gap: 12px; flex-wrap: wrap;
+  padding: 12px 14px; background: #f8fafc; border-bottom: 0.5px solid #e2e8f0; gap: 12px; flex-wrap: wrap;
 }
 .previewTitulo { font-size: 13px; font-weight: 600; color: #1A2F5E; }
 .previewSub { font-size: 11.5px; color: #94a3b8; margin-top: 2px; }
 .previewBtns { display: flex; gap: 8px; }
 .btnCancelar {
   padding: 7px 14px; border-radius: 7px; border: 0.5px solid #e2e8f0;
-  background: #fff; color: #64748b; font-size: 12px; cursor: pointer;
-  font-family: 'Poppins', sans-serif; transition: all 0.15s;
+  background: #fff; color: #64748b; font-size: 12px; cursor: pointer; font-family: 'Poppins', sans-serif;
 }
 .btnCancelar:hover { border-color: #dc2626; color: #dc2626; }
 .btnConfirmar {
@@ -69,7 +58,6 @@
 }
 .btnConfirmar:hover { background: #f5bc00; }
 .btnConfirmar:disabled { opacity: 0.6; cursor: not-allowed; }
-
 .empMatch { font-size: 11px; color: #15803d; font-weight: 600; }
 .empNoMatch { font-size: 11px; color: #94a3b8; }
 
@@ -112,11 +100,11 @@
 .tableWrap { background: #fff; border-radius: 10px; border: 0.5px solid #e2e8f0; overflow: hidden; }
 .tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .tbl th {
-  padding: 10px 14px; text-align: left; font-size: 10.5px;
-  font-weight: 600; color: #94a3b8; text-transform: uppercase;
-  letter-spacing: 0.7px; border-bottom: 0.5px solid #e2e8f0; background: #f8fafc;
+  padding: 10px 14px; text-align: left; font-size: 10.5px; font-weight: 600;
+  color: #94a3b8; text-transform: uppercase; letter-spacing: 0.7px;
+  border-bottom: 0.5px solid #e2e8f0; background: #f8fafc;
 }
-.tbl td { padding: 11px 14px; border-bottom: 0.5px solid #f1f5f9; color: #334155; vertical-align: middle; }
+.tbl td { padding: 10px 14px; border-bottom: 0.5px solid #f1f5f9; color: #334155; vertical-align: middle; }
 .tbl tr:last-child td { border-bottom: none; }
 .tbl tr:hover td { background: #f8fafc; }
 .tbl tfoot td { padding: 10px 14px; background: #f8fafc; border-top: 0.5px solid #e2e8f0; }
@@ -126,23 +114,41 @@
 .filaTarde td   { background: #fffbeb !important; }
 .filaMuyTarde td { background: #fff5f5 !important; }
 .filaConFaltas td { background: #fff5f5 !important; }
-.filaTarde:hover td   { background: #fef9c3 !important; }
-.filaMuyTarde:hover td { background: #fee2e2 !important; }
 
 .hora  { font-weight: 600; color: #1A2F5E; white-space: nowrap; }
 .nombre { font-weight: 500; }
+.obsCell { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: #64748b; }
 
-/* Badges de estado */
 .badge { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; }
 .estadoPuntual  { background: #dcfce7; color: #15803d; }
 .estadoTarde    { background: #fef9c3; color: #854d0e; }
 .estadoMuyTarde { background: #fee2e2; color: #991b1b; }
 .estadoSinReg   { background: #f1f5f9; color: #94a3b8; }
+.estadoFalta    { background: #fee2e2; color: #991b1b; }
 
 .cumpleSi { color: #15803d; font-weight: 600; font-size: 12px; }
 .cumpleNo { color: #dc2626; font-weight: 600; font-size: 12px; }
 
-/* Resumen empleados */
+.tipoIngreso { display: inline-flex; padding: 2px 7px; border-radius: 99px; font-size: 10.5px; font-weight: 600; background: #dbeafe; color: #1d4ed8; }
+.tipoSalida  { display: inline-flex; padding: 2px 7px; border-radius: 99px; font-size: 10.5px; font-weight: 600; background: #f1f5f9; color: #64748b; }
+
+/* Botones de acción en tabla */
+.actBtn {
+  width: 27px; height: 27px; border-radius: 6px; border: 0.5px solid #e2e8f0; background: #fff;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #64748b; transition: all 0.15s;
+}
+.actBtn:hover { border-color: #1A2F5E; color: #1A2F5E; }
+
+.btnDetalle {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 6px; border: 0.5px solid #e2e8f0; background: #fff;
+  font-size: 11.5px; font-weight: 500; color: #1A2F5E; cursor: pointer;
+  font-family: 'Poppins', sans-serif; white-space: nowrap; transition: all 0.15s;
+}
+.btnDetalle:hover { background: #1A2F5E; color: #fff; border-color: #1A2F5E; }
+
+/* Resumen empleado */
 .empNombre { font-weight: 600; color: #1A2F5E; font-size: 12.5px; }
 .empDni    { font-size: 11px; color: #94a3b8; margin-top: 2px; }
 .centrado  { text-align: center; }
@@ -160,5 +166,139 @@
 .tableFooter { padding: 10px 14px; font-size: 11.5px; color: #94a3b8; text-align: right; }
 .loadingMsg { padding: 40px; text-align: center; color: #94a3b8; font-size: 13px; }
 .emptyMsg   { padding: 40px; text-align: center; color: #94a3b8; font-size: 13px; }
+.emptyMsgSm { padding: 16px; text-align: center; color: #94a3b8; font-size: 12px; }
 
-@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+/* ── Modales ── */
+.modalOverlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
+}
+.modalGrande {
+  background: #fff; border-radius: 14px; width: 100%; max-width: 860px;
+  max-height: 90vh; overflow-y: auto; display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modalChico {
+  background: #fff; border-radius: 14px; width: 100%; max-width: 500px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modalHeader {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 20px 24px 16px; border-bottom: 0.5px solid #e2e8f0; gap: 12px; flex-shrink: 0;
+}
+.modalHeaderBtns { display: flex; align-items: center; gap: 8px; }
+.modalTitulo { font-size: 16px; font-weight: 700; color: #1A2F5E; }
+.modalSub    { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+.modalClose  { background: none; border: none; cursor: pointer; color: #94a3b8; padding: 4px 8px; border-radius: 6px; font-size: 16px; }
+.modalClose:hover { background: #f1f5f9; color: #1A2F5E; }
+.modalBody   { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; }
+
+.btnExportar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 7px; border: none;
+  background: #1A2F5E; color: #fff; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap; transition: background 0.15s;
+}
+.btnExportar:hover { background: #2E487C; }
+
+/* KPIs del empleado en modal */
+.empKpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.empKpi { background: #f8fafc; border-radius: 8px; padding: 12px 14px; border: 0.5px solid #e2e8f0; }
+.empKpiLabel { font-size: 10.5px; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; }
+.empKpiVal { font-size: 20px; font-weight: 700; color: #1A2F5E; }
+
+/* Toolbar de detalle */
+.detalleToolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.detalleToolbarLabel { font-size: 12px; font-weight: 500; color: #64748b; }
+.fechaSep { font-size: 12px; color: #94a3b8; }
+
+/* Sección del modal */
+.modalSeccion { display: flex; flex-direction: column; gap: 10px; }
+.modalSeccionTitulo { font-size: 12px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; }
+
+/* Observaciones */
+.obsForm { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.obsInput {
+  flex: 1; min-width: 200px; padding: 7px 10px; border-radius: 7px;
+  border: 0.5px solid #e2e8f0; font-size: 12.5px; font-family: 'Poppins', sans-serif;
+  color: #1A2F5E; outline: none; background: #fff;
+}
+.obsInput:focus { border-color: #2E487C; }
+.btnGuardarObs {
+  padding: 7px 16px; border-radius: 7px; border: none;
+  background: #FEC70B; color: #1A2F5E; font-size: 12px; font-weight: 700;
+  cursor: pointer; font-family: 'Poppins', sans-serif; white-space: nowrap; transition: background 0.15s;
+}
+.btnGuardarObs:hover:not(:disabled) { background: #f5bc00; }
+.btnGuardarObs:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.obsList { display: flex; flex-direction: column; gap: 8px; }
+.obsItem {
+  background: #f8fafc; border-radius: 8px; border: 0.5px solid #e2e8f0;
+  padding: 10px 12px; display: flex; flex-direction: column; gap: 6px;
+}
+.obsTop { display: flex; align-items: center; gap: 8px; }
+.obsTipoBadge { display: inline-flex; padding: 2px 8px; border-radius: 99px; font-size: 10.5px; font-weight: 600; }
+.obsGeneral       { background: #eff6ff; color: #1d4ed8; }
+.obsJustificacion { background: #dcfce7; color: #15803d; }
+.obsAmonestacion  { background: #fee2e2; color: #991b1b; }
+.obsFecha { font-size: 11px; color: #94a3b8; flex: 1; }
+.obsTexto { font-size: 12.5px; color: #334155; }
+.obsEliminar {
+  background: none; border: none; cursor: pointer; color: #94a3b8; padding: 2px 4px;
+  border-radius: 4px; display: flex; align-items: center; transition: color 0.15s;
+}
+.obsEliminar:hover { color: #dc2626; }
+
+/* Edit subtitle */
+.editSubTitulo { font-size: 12px; color: #64748b; margin-bottom: 4px; }
+
+/* Form edición */
+.formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.formGroup { display: flex; flex-direction: column; gap: 5px; }
+.formGroupFull { display: flex; flex-direction: column; gap: 5px; grid-column: 1 / -1; }
+.formGroup label, .formGroupFull label { font-size: 11.5px; color: #64748b; font-weight: 500; }
+.formGroup input, .formGroup select, .formGroupFull input {
+  padding: 7px 10px; border-radius: 7px; border: 0.5px solid #e2e8f0;
+  font-size: 12.5px; font-family: 'Poppins', sans-serif; color: #1A2F5E; background: #fff; outline: none;
+}
+.formGroup input:focus, .formGroup select:focus, .formGroupFull input:focus { border-color: #2E487C; }
+
+.formBtns { display: flex; gap: 8px; justify-content: flex-end; }
+.btnCancel {
+  padding: 8px 16px; border-radius: 7px; border: 0.5px solid #e2e8f0;
+  background: #fff; color: #64748b; font-size: 12.5px; cursor: pointer; font-family: 'Poppins', sans-serif;
+}
+.btnCancel:hover { border-color: #1A2F5E; color: #1A2F5E; }
+.btnSave {
+  padding: 8px 20px; border-radius: 7px; border: none;
+  background: #FEC70B; color: #1A2F5E; font-size: 12.5px; font-weight: 700;
+  cursor: pointer; font-family: 'Poppins', sans-serif; transition: background 0.15s;
+}
+.btnSave:hover { background: #f5bc00; }
+.btnSave:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@media (max-width: 1100px) { .kpis { grid-template-columns: repeat(2, 1fr); } .empKpis { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) { .formGrid { grid-template-columns: 1fr; } }
+
+/* ── Incidencias pendientes de justificación ── */
+.incidenciasBox {
+  background: #fffbeb; border: 0.5px solid #fde68a;
+  border-radius: 8px; padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.incidenciasTitle {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11.5px; font-weight: 600; color: #92400e;
+}
+.incidenciasList { display: flex; flex-wrap: wrap; gap: 6px; }
+.incidenciaChip {
+  padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 500;
+  cursor: pointer; border: none; font-family: 'Poppins', sans-serif;
+  transition: all 0.15s; white-space: nowrap;
+}
+.incidenciaChip:hover { opacity: 0.8; transform: scale(1.03); }
+.chipFalta     { background: #fee2e2; color: #991b1b; }
+.chipMuyTarde  { background: #fee2e2; color: #991b1b; }
+.chipTarde     { background: #fef9c3; color: #854d0e; }
